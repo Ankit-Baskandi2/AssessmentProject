@@ -1,0 +1,26 @@
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-signin',
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.scss']
+})
+export class SigninComponent implements OnInit {
+  ngOnInit(): void { }
+
+  constructor(private fb : FormBuilder) {}
+
+  loginDetail = this.fb.group({
+    email : ['',[Validators.required,Validators.email]],
+    password : ['',[Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')]]
+  })
+
+  getControl(name: any): AbstractControl | null {
+    return this.loginDetail.get(name);
+  }
+
+  onSubmit() {
+    console.log(this.loginDetail.value)
+  }
+}

@@ -7,6 +7,8 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
+
+  eyeOpen : boolean = false
   ngOnInit(): void { }
 
   constructor(private fb : FormBuilder) {}
@@ -20,7 +22,16 @@ export class SigninComponent implements OnInit {
     return this.loginDetail.get(name);
   }
 
+  togglePasswordVisibility() {
+    this.eyeOpen = !this.eyeOpen;
+  }
+
   onSubmit() {
-    console.log(this.loginDetail.value)
+    if(this.loginDetail.valid) {
+
+    }
+    else {
+      this.loginDetail.markAllAsTouched();
+    }
   }
 }

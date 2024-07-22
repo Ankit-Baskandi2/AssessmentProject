@@ -5,12 +5,14 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SigninComponent } from './signin/signin.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ForgetPasswodComponent } from './forget-passwod/forget-passwod.component';
+import { EmailConformationComponent } from './email-conformation/email-conformation.component';
 
 
 @NgModule({
   declarations: [
     SigninComponent,
-    ForgetPasswodComponent
+    ForgetPasswodComponent,
+    EmailConformationComponent
   ],
   imports: [
     CommonModule,

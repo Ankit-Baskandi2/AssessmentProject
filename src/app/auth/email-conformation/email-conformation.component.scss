@@ -32,13 +32,15 @@
 }
 
 .email-conform {
-  background-image: url("../../../assets/image.png");
+  background-image: url("../../../assets/emailSend.png");
   width: 50%;
-  scale: 0.9;
+  scale: 0.5;
+  box-shadow: 0 0 10px rgb(12 11 11 / 28%);
   background-size: contain;
   height: 100%;
   background-repeat: no-repeat;
   position: absolute;
   top: -2%;
   transform: translateX(-50%);
+  left: 62%;
 }

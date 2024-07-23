@@ -20,6 +20,11 @@ export class ForgetPasswodComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.forgetDetails.value)
+    if(this.forgetDetails.valid) {
+      console.log(this.forgetDetails.value)
+    }
+    else {
+      this.forgetDetails.markAllAsTouched();
+    }
   }
 }

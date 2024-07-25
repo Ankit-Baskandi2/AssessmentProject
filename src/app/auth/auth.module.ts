@@ -7,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ForgetPasswodComponent } from './forget-passwod/forget-passwod.component';
 import { EmailConformationComponent } from './email-conformation/email-conformation.component';
 import { ResetOldPasswordComponent } from './reset-old-password/reset-old-password.component';
-import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({

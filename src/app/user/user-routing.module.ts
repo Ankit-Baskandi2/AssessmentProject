@@ -5,12 +5,23 @@ import { UserComponent } from './user.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo : 'user',
+    redirectTo : 'addinguser',
     pathMatch : 'full'
   },
   {
-    path : 'user',
-    component : UserComponent
+    path : 'addinguser',
+    component : UserComponent,
+    children : [
+      { 
+        path : '',
+        redirectTo : 'addinguser',
+        pathMatch : 'full'
+      },
+      {
+        path : 'addinguser',
+        loadChildren : () => import('./adding-user/adding-user.module').then(m => m.AddingUserModule)
+      }
+    ]
   }
 ];
 

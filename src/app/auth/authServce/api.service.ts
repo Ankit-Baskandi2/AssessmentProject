@@ -12,4 +12,8 @@ export class ApiService {
   siginUser(data : any) : Observable<any> {
     return this.http.post('https://localhost:7200/api/UserDetail/UserLoginChecking',data);
   }
+
+  sendEmailToForgotPassword(data : any) : Observable<any> {
+    return this.http.post('https://localhost:7200/api/UserDetail/SendEmailToForgotPassword/'+data,data)
+  }
 }

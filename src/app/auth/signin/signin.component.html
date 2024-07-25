@@ -35,8 +35,6 @@
                         ">
               <small class="text-danger" *ngIf="getControl('password')?.errors?.['required']">Password is
                 required</small>
-              <small class="text-danger" *ngIf="getControl('password')?.errors?.['pattern']">Enter valid
-                Password</small>
             </div>
 
             <div class="eye-open" *ngIf="eyeOpen" (click)="togglePasswordVisibility()">

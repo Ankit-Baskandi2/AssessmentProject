@@ -6,18 +6,21 @@ import { SigninComponent } from './signin/signin.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ForgetPasswodComponent } from './forget-passwod/forget-passwod.component';
 import { EmailConformationComponent } from './email-conformation/email-conformation.component';
+import { ResetOldPasswordComponent } from './reset-old-password/reset-old-password.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
   declarations: [
     SigninComponent,
     ForgetPasswodComponent,
-    EmailConformationComponent
+    EmailConformationComponent,
+    ResetOldPasswordComponent,
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class AuthModule { }

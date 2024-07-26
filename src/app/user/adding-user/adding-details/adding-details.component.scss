@@ -1,0 +1,28 @@
+
+.imgcircle {
+    border: 2px solid black;
+    border-style: dotted;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.image{
+    position: absolute;
+    top: 38%;
+    right: 35%;
+}
+
+.uploadtext{
+    font-weight: 400;
+    font-size: large;
+}
+
+.user-detail {
+    height: 80px;
+}
+
+.text-weight {
+    font-weight: 500;
+}

@@ -26,22 +26,23 @@
           </div>
           <div class="mt-4 px-3 main-eye">
             <label class="form-label" for="password">Enter Your Password</label>
-            <input [type]="!eyeOpen ? 'password' : 'text' " class="form-control" id="password"
+            <div class="input-eye">
+              <input [type]="!eyeOpen ? 'password' : 'text' " class="form-control" id="password"
               formControlName="password">
+              <div class="eye-open" *ngIf="eyeOpen" (click)="togglePasswordVisibility()">
+                <img src="../../assets/eye-slash.svg" alt="just" />
+              </div>
+              <div class="eye-open" *ngIf="!eyeOpen" (click)="togglePasswordVisibility()">
+                <img src="../../assets/eye.svg" alt="just" />
+              </div>
+            </div>
             <div *ngIf="
-                          getControl('password')?.errors &&
-                          (getControl('password')?.touched ||
-                            getControl('password')?.dirty)
-                        ">
+            getControl('password')?.errors &&
+            (getControl('password')?.touched ||
+              getControl('password')?.dirty)
+          ">
               <small class="text-danger" *ngIf="getControl('password')?.errors?.['required']">Password is
                 required</small>
-            </div>
-
-            <div class="eye-open" *ngIf="eyeOpen" (click)="togglePasswordVisibility()">
-              <img src="../../assets/eye-slash.svg" alt="just" />
-            </div>
-            <div class="eye-open" *ngIf="!eyeOpen" (click)="togglePasswordVisibility()">
-              <img src="../../assets/eye.svg" alt="just" />
             </div>
           </div>
 

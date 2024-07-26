@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="user-detail mt-4">
+        <div>
+            <img src="../../../../assets/adduser.png" alt="Add User">
+        </div>
+    </div>
+
+    <div class="ps-5 pb-4">
+        <h1>User Detail</h1>
+        <div class="d-flex gap-3 align-items-center">
+            <div class="imgcircle">
+                <img src="../../../../assets/imgIcon.png" alt="image" width="25px" height="25px" class="image">
+            </div>
+
+            <div class="">
+                <p class="uploadtext">Upload User image</p>
+                <p class="uploadtext text-primary ">Browse</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ps-5 container row">
+        <div class="form-group row pb-5">
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="firstName">First Name</label>
+                </div>
+                <input type="text" id="firstName" (keypress)="blockSpaceValidaton($event)" class="form-control" placeholder="First Name">
+            </div>
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="middleName">Middle Name</label>
+                </div>
+                <input type="text" id="middleName" (keypress)="blockSpaceValidaton($event)" class="form-control" placeholder="Middle Name">
+            </div>
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="lastName">Last Name</label>
+                </div>
+                <input type="text" id="lastName" (keypress)="blockSpaceValidaton($event)" class="form-control" placeholder="Last Name">
+            </div>
+        </div>
+
+        <div class="form-group row pb-5">
+            <div class="col-4">
+                <label class="form-label text-weight" for="Gender">Gender<span class="required-field"></span></label>
+                <select tabindex="12" class="form-control" name="Gender" id="Gender" formControlName="Major">
+                    <option value="" disabled selected>Select your Gender</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Others</option>
+                </select>
+            </div>
+
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="dob">Date Of Birth</label>
+                </div>
+                <input type="date" id="dob" (keypress)="disableDate()" class="form-control" max="{{dateNow}}" placeholder="Middle Name">
+            </div>
+
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="Email">Email</label>
+                </div>
+                <input type="email" id="Email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+
+        <div class="form-group row pb-5">
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="dateofjoining">Date Of Joining</label>
+                </div>
+                <input type="date" id="dateofjoining" class="form-control" placeholder="Date of joining">
+            </div>
+
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="Phone">Phone</label>
+                </div>
+                <input type="tel" id="Phone" (keypress)="dateValidation($event)" class="form-control" placeholder="Phone">
+            </div>
+            
+            <div class="col-4">
+                <div>
+                    <label class="form-label text-weight" for="alternatephone">Alternate Phone</label>
+                </div>
+                <input type="email" id="alternatephone" class="form-control" placeholder="Alternate Phone">
+            </div>
+        </div>
+    </div>
+</div>

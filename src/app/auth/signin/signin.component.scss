@@ -19,14 +19,31 @@
     position: relative;
 }
   
-.eye-open {
-    width: 20px;
-    height: 10px;
-    position: absolute;
-    right: 20px;
-    top: 69%;
-    transform: translateY(-50%);
-    cursor: pointer;
+// .eye-open {
+//     width: 20px;
+//     height: 10px;
+//     position: absolute;
+//     right: 20px;
+//     top: 69%;
+//     transform: translateY(-50%);
+//     cursor: pointer;
+// }
+
+// .input-eye {
+//     width: 20px;
+//     height: 10px;
+//     position: absolute;
+//     right: 20px;
+//     top: 69%;
+//     transform: translateY(-50%);
+//     cursor: pointer;
+// }
+
+
+.input-eye{
+    display:flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .logo-size {

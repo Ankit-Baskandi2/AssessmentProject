@@ -5,11 +5,11 @@ import { UserComponent } from './user.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo : 'addinguser',
+    redirectTo : 'addingmodule',
     pathMatch : 'full'
   },
   {
-    path : 'addinguser',
+    path : 'addingmodule',
     component : UserComponent,
     children : [
       { 

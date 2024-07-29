@@ -185,9 +185,7 @@
                                 class="required-field"></span></label>
                         <select class="form-control" name="country" [id]="'country'+i" formControlName="Country">
                             <option value="" disabled selected>Select Country</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
-                            <option value="3">Others</option>
+                            <option [attr.countryCode]="country.isoCode" *ngFor="let country of countryList" [value]="country.name">{{country.name}}</option>
                         </select>
                         <div
                             *ngIf="getAddressControl(i, 'Country')?.errors && getAddressControl(i, 'Country')?.touched">
@@ -201,10 +199,7 @@
                         <label class="form-label text-weight" [for]="'state'+i">State<span
                                 class="required-field"></span></label>
                         <select class="form-control" name="state" [id]="'state'+i" formControlName="State">
-                            <option value="" disabled selected>Select State</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
-                            <option value="3">Others</option>
+                            <option *ngFor="let state of stateListBasedOnCountryCode" [value]="state.name">{{state.name}}</option>
                         </select>
                         <div *ngIf="getAddressControl(i, 'State')?.errors && getAddressControl(i, 'State')?.touched">
                             <small class="text-danger" *ngIf="getAddressControl(i, 'State')?.errors?.['required']">State

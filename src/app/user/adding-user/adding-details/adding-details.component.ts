@@ -4,6 +4,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { CrudService } from '../servic/crud.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Country, State, City } from 'country-state-city'
 
 @Component({
   selector: 'app-adding-details',
@@ -16,11 +17,19 @@ export class AddingDetailsComponent implements OnInit {
   isUpdate : boolean = false;
   uplaodFile : any = null;
   updateUserId : any;
+  countryList : any;
+  countryCode : any;
+  stateListBasedOnCountryCode : any;
+
   constructor(private fb : FormBuilder, private api : CrudService, private toaster : ToastrService, private router : Router) {}
 
   userRegisterationDetails : any;
 
   ngOnInit(): void {
+    this.countryList = Country.getAllCountries();
+    // console.log(this.countryList);
+     console.log(State.getStatesOfCountry('IN'));
+    this.stateListBasedOnCountryCode = State.getStatesOfCountry(this.countryCode);
     this.dateNow = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
     this.userRegisterationDetails = this.fb.group({
@@ -210,6 +219,12 @@ export class AddingDetailsComponent implements OnInit {
     formData.forEach((value, key) => {
       console.log(key, value);
     });
+  }
+
+  setCountryCode(code : any) {
+    debugger;
+    this.stateListBasedOnCountryCode = State.getStatesOfCountry(code);
+    console.log("The value is : ", this.stateListBasedOnCountryCode);
   }
 
 }

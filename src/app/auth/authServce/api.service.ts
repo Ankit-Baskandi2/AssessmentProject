@@ -16,4 +16,9 @@ export class ApiService {
   sendEmailToForgotPassword(data : any) : Observable<any> {
     return this.http.post('https://localhost:7200/api/UserDetail/SendEmailToForgotPassword/'+data,data)
   }
+
+  resetOldPassword(data : any) : Observable<any> {
+    
+    return this.http.post('https://localhost:7200/api/UserDetail/ResetUserPassword',data)
+  }
 }

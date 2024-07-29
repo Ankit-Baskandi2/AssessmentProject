@@ -20,6 +20,7 @@ export class AddingDetailsComponent implements OnInit {
   countryList : any;
   countryCode : any;
   stateListBasedOnCountryCode : any;
+  cityListBasedOnStateCode : any;
 
   constructor(private fb : FormBuilder, private api : CrudService, private toaster : ToastrService, private router : Router) {}
 
@@ -27,8 +28,6 @@ export class AddingDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.countryList = Country.getAllCountries();
-    // console.log(this.countryList);
-     console.log(State.getStatesOfCountry('IN'));
     this.stateListBasedOnCountryCode = State.getStatesOfCountry(this.countryCode);
     this.dateNow = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
@@ -48,6 +47,7 @@ export class AddingDetailsComponent implements OnInit {
 
     this.api.currentUserDetail.subscribe(userDetail => {
       if (userDetail) {
+        console.log(userDetail);
         this.isUpdate = true;
         console.log(userDetail);
         this.userRegisterationDetails.patchValue({
@@ -68,10 +68,10 @@ export class AddingDetailsComponent implements OnInit {
         addressFormArray.clear();
         userDetail.userAddressAnkits.forEach((element : any) => {
           addressFormArray.push(this.fb.group({
-            Country: [element.country || '', Validators.required],
-            State: [element.state || '', Validators.required],
-            City: [element.city || '', Validators.required],
-            ZipCode: [element.zipCode || '', Validators.required]
+            Country: [element.country],
+            State: [element.state],
+            City: [element.city],
+            ZipCode: [element.zipCode]
           }));
         });
       }
@@ -83,7 +83,7 @@ export class AddingDetailsComponent implements OnInit {
       Country : ['',[Validators.required]],
       State : ['',[Validators.required]],
       City : ['',[Validators.required]],
-      ZipCode : ['',[Validators.required]]
+      ZipCode : ['',[Validators.required, Validators.maxLength(5), Validators.minLength(5)]]
     })
   }
 
@@ -159,7 +159,7 @@ export class AddingDetailsComponent implements OnInit {
         next: (res) => {
           if (res.statusCode === 200) {
             this.toaster.success('Success',res.message);
-            this.router.navigate(['/user/addingmodule/addinguser/dashboard'])
+            this.router.navigate(['/user/addingmodule/addinguser/dashboard']);
           }
         },
         error: (res) => {
@@ -206,25 +206,29 @@ export class AddingDetailsComponent implements OnInit {
       next : (res) => {
         if(res.statusCode === 200) {
           this.toaster.success('Success',res.message);
+          this.router.navigate(['/user/addingmodule/addinguser/dashboard']);
         }
       },
       error : (res) => {
         if(res.statusCode === 401) {
-          this.toaster.success('Error', res.message);
+          this.toaster.error('Error', res.message);
         }
-        this.toaster.success('Error', 'Something went wrong while updating');
+        this.toaster.error('Error', 'Something went wrong while updating');
       }
     })
 
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
   }
 
-  setCountryCode(code : any) {
-    debugger;
-    this.stateListBasedOnCountryCode = State.getStatesOfCountry(code);
-    console.log("The value is : ", this.stateListBasedOnCountryCode);
+  setCountryCode(event : any) {
+    this.countryCode = event.target.value;
+    this.stateListBasedOnCountryCode = State.getStatesOfCountry(this.countryCode);
+  }
+
+  setStateCode(event : any) {
+    this.cityListBasedOnStateCode = City.getCitiesOfState(this.countryCode,event.target.value);
   }
 
 }

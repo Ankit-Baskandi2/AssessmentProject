@@ -16,32 +16,22 @@ export class ResetOldPasswordComponent implements OnInit {
     password : ['',[Validators.required]],
     confirmPassword : ['',[Validators.required]]
   },
+  {Validators : this.ConfirmedValiator}
 );
 
   getControl(name : any) : AbstractControl | null {
     return this.resetPassword.get(name);
   }
 
-  ConfirmedValiator(
-    controlName: string,
-    matchingControlName: string
-  ) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-      
-      if (
-        matchingControl.errors &&
-        !matchingControl.errors['confirmedValidator']
-      ) {
-        return;
-      }
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ confirmedValidator: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
+  ConfirmedValiator(controls : AbstractControl) {
+
+      const pass = controls.get('password');
+      const conformPass = controls.get('confirmPassword');
+
+      const error = pass?.value !== conformPass?.value
+
+      conformPass?.setErrors(error ? {error : true} : null)
+      return error ? { mismatch: true } : null;
   }
 
   onSubmit() {

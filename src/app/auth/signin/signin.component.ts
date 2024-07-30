@@ -36,7 +36,7 @@ export class SigninComponent implements OnInit {
           if(res.statusCode === 200) {
             this.toaster.success('success',res.message);
             localStorage.setItem('Bearer',res.data);
-            this.route.navigate(['user/addinguser/addinguser/dashboard'])
+            this.route.navigate(['user/addingmodule/addinguser/dashboard'])
           }
         },
         error: (res : any) => {

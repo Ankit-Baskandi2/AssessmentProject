@@ -2,7 +2,7 @@
     <div class="col-6 m-0 p-0">
         <div class="bgImage">
             <div class="frtImage">
-    
+
             </div>
         </div>
     </div>
@@ -14,27 +14,21 @@
                 <form [formGroup]="forgetDetails" (ngSubmit)="onSubmit()">
                     <div class="mt-4 px-3">
                         <label class="form-label" for="email">Enter Your Email Address</label>
-                        <input type="email" autofocus class="form-control border-secondary" id="email" formControlName="email"> 
-                        <div
-                        *ngIf="
+                        <input type="email" autofocus class="form-control border-secondary" id="email"
+                            formControlName="email">
+                        <div *ngIf="
                           getControl('email')?.errors &&
                           (getControl('email')?.touched ||
                             getControl('email')?.dirty)
-                        "
-                      >
-                        <small
-                          class="text-danger"
-                          *ngIf="getControl('email')?.errors?.['required']"
-                          >Email is required</small
-                        >
-                        <small
-                        class="text-danger"
-                        *ngIf="getControl('email')?.errors?.['email']"
-                        >Email is Not Valid</small
-                      >
-                      </div>
+                        ">
+                            <small class="text-danger" *ngIf="getControl('email')?.errors?.['required']">Email is
+                                required</small>
+                            <small class="text-danger" *ngIf="getControl('email')?.errors?.['email']">Email is Not
+                                Valid</small>
+                        </div>
                     </div>
-                    <button class="customizeButton btn mt-3 mb-5 form-control" type="submit">Send Link to My Email</button>
+                    <button class="customizeButton btn mt-3 mb-5 form-control" type="submit">Send Link to My
+                        Email</button>
 
                     <div class="text-center mb-4">
                         <small>Back to SignIn <a routerLink="/auth/signin">Go Back</a></small>

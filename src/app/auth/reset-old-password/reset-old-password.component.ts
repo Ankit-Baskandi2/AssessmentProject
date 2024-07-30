@@ -38,14 +38,12 @@ export class ResetOldPasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     if(this.resetPassword.valid) {
       const formValue = {...this.resetPassword.value}
       delete formValue.confirmPassword;
-      let passData = formValue.passwod;
-      console.log("The data type is : ",typeof passData);
+      // console.log("The data type is : ",typeof passData);
       const token = this.acitvatedRoute.snapshot.params['token'];
-      this.api.resetOldPassword(formValue.password,token).subscribe({
+      this.api.resetOldPassword(formValue,token).subscribe({
         next : (res) => {
           if(res.statusCode === 200) {
             this.toaster.success('Success',res.message);

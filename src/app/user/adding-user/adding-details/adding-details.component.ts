@@ -5,33 +5,44 @@ import { CrudService } from '../servic/crud.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Country, State, City } from 'country-state-city'
-import { Subject, takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-adding-details',
   templateUrl: './adding-details.component.html',
   styleUrls: ['./adding-details.component.scss']
 })
-export class AddingDetailsComponent implements OnInit,OnDestroy {
+export class AddingDetailsComponent implements OnInit, OnDestroy {
 
   dateNow : any;
   isUpdate : boolean = false;
   uplaodFile : any = null;
   updateUserId : any;
-  updateAddress : any;
   countryList : any;
   countryCode : any;
   stateListBasedOnCountryCode : any;
   cityListBasedOnStateCode : any;
-  destroy$ = new Subject<boolean>();
+  userDetailSubscription! : Subscription
 
   constructor(private fb : FormBuilder, private api : CrudService, private toaster : ToastrService, private router : Router) {}
+
+  ngOnDestroy(): void {
+    debugger;
+    this.isUpdate = false;
+    this.userRegisterationDetails.reset( {
+      FirstName : '',
+      MiddleName : '',
+      LastName : ''
+    });
+    if (this.userDetailSubscription) {
+      this.userDetailSubscription.unsubscribe();
+    }
+  }
 
   userRegisterationDetails : any;
 
   ngOnInit(): void {
     this.countryList = Country.getAllCountries();
-    this.stateListBasedOnCountryCode = State.getStatesOfCountry(this.countryCode);
     this.dateNow = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
     this.userRegisterationDetails = this.fb.group({
@@ -48,15 +59,13 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
       UserAddressAnkits : this.fb.array([this.addAddressDetailsFromGroup()])
     });
 
-    this.api.currentUserDetail.pipe(takeUntil(this.destroy$)).subscribe(userDetail => {
+    this.userDetailSubscription = this.api.currentUserDetail.subscribe(userDetail => {
       if (userDetail) {
         this.isUpdate = true;
-        //console.log(userDetail);
         this.userRegisterationDetails.patchValue({
           FirstName : userDetail.firstName,
           MiddleName : userDetail.middleName,
           LastName : userDetail.lastName,
-          Gender : userDetail.gender,
           Dob : userDetail.dob,
           Email : userDetail.email,
           Phone : userDetail.phone,
@@ -64,9 +73,9 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
           DateOfjoining : userDetail.dateOfjoining
         });
 
+        // this.stateListBasedOnCountryCode = State.getAllStates();
         this.uplaodFile = userDetail.imagePath;
-        this.updateUserId = userDetail.userId;
-        this.updateAddress = userDetail.userAddressAnkits;
+        this.updateUserId = userDetail.userId
 
         const addressFormArray = this.userRegisterationDetails.get('UserAddressAnkits') as FormArray;
         addressFormArray.clear();
@@ -152,15 +161,13 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
       formData.append('ImagePath', this.uplaodFile);
     
       const userAddressAnkits = this.userRegisterationDetails.get('UserAddressAnkits').value;
-
-      for (let i = 0; i < userAddressAnkits.length && this.updateAddress.length; i++) {
-        formData.append(`UserAddressAnkits[${i}].AddressId`, this.updateAddress[i].addressId);
-        formData.append(`UserAddressAnkits[${i}].City`, userAddressAnkits[i].City);
-        formData.append(`UserAddressAnkits[${i}].State`, userAddressAnkits[i].State);
-        formData.append(`UserAddressAnkits[${i}].Country`, userAddressAnkits[i].Country);
-        formData.append(`UserAddressAnkits[${i}].ZipCode`, userAddressAnkits[i].ZipCode); 
-      }
-
+      userAddressAnkits.forEach((address: any, i: number) => {
+        formData.append(`UserAddressAnkits[${i}].City`, address.City);
+        formData.append(`UserAddressAnkits[${i}].State`, address.State);
+        formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
+        formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
+      });
+    
       this.api.saveUserDetails(formData).subscribe({
         next: (res) => {
           if (res.statusCode === 200) {
@@ -180,8 +187,6 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
     else {
       this.userRegisterationDetails.markAllAsTouched();
     }
-
-    this.userRegisterationDetails
   }
 
   onUpdate() {
@@ -201,7 +206,6 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
   
     const userAddressAnkits = this.userRegisterationDetails.get('UserAddressAnkits').value;
     userAddressAnkits.forEach((address: any, i: number) => {
-      formData.append(`UserAddressAnkits[${i}].AddressId`,'1');
       formData.append(`UserAddressAnkits[${i}].City`, address.City);
       formData.append(`UserAddressAnkits[${i}].State`, address.State);
       formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
@@ -212,7 +216,7 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
       next : (res) => {
         if(res.statusCode === 200) {
           this.toaster.success('Success',res.message);
-          this.userRegisterationDetails.reset;
+          this.userRegisterationDetails.reset();
           this.router.navigate(['/user/addingmodule/addinguser/dashboard']);
         }
       },
@@ -221,6 +225,9 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
           this.toaster.error('Error', res.message);
         }
         this.toaster.error('Error', 'Something went wrong while updating');
+      },
+      complete : () => {
+        this.userRegisterationDetails.reset();
       }
     })
 
@@ -236,11 +243,6 @@ export class AddingDetailsComponent implements OnInit,OnDestroy {
 
   setStateCode(event : any) {
     this.cityListBasedOnStateCode = City.getCitiesOfState(this.countryCode,event.target.value);
-  }
-
-  ngOnDestroy() {
-    this.isUpdate = false;
-    this.destroy$.next(false);
   }
 
 }

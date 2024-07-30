@@ -14,7 +14,7 @@ import { ResetOldPasswordComponent } from './reset-old-password/reset-old-passwo
     SigninComponent,
     ForgetPasswodComponent,
     EmailConformationComponent,
-    ResetOldPasswordComponent,
+    ResetOldPasswordComponent
   ],
   imports: [
     CommonModule,

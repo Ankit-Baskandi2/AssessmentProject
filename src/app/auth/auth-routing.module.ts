@@ -24,7 +24,7 @@ const routes: Routes = [
     component : EmailConformationComponent
   },
   {
-    path : 'resetoldpassword',
+    path : 'resetoldpassword/:token',
     component : ResetOldPasswordComponent
   }
 ];

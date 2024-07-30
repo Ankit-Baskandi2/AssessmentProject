@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../authServce/api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-old-password',
@@ -8,7 +11,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 })
 export class ResetOldPasswordComponent implements OnInit {
 
-  constructor(private fb : FormBuilder) {}
+  constructor(private fb : FormBuilder, private acitvatedRoute : ActivatedRoute, private api : ApiService, private toaster : ToastrService) {}
 
   ngOnInit(): void { }
 
@@ -35,8 +38,26 @@ export class ResetOldPasswordComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger;
     if(this.resetPassword.valid) {
-
+      const formValue = {...this.resetPassword.value}
+      delete formValue.confirmPassword;
+      let passData = formValue.passwod;
+      console.log("The data type is : ",typeof passData);
+      const token = this.acitvatedRoute.snapshot.params['token'];
+      this.api.resetOldPassword(formValue.password,token).subscribe({
+        next : (res) => {
+          if(res.statusCode === 200) {
+            this.toaster.success('Success',res.message);
+          }
+        },
+        error : (res) => {
+          if(res.statusCode === 401) {
+            this.toaster.error('Error', res.message);
+          }
+          this.toaster.error('Error',"Something went wrong");
+        }
+      })
     }else {
       this.resetPassword.markAllAsTouched();
     }

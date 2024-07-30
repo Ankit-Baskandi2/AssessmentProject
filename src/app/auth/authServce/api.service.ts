@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -17,8 +17,8 @@ export class ApiService {
     return this.http.post('https://localhost:7200/api/UserDetail/SendEmailToForgotPassword/'+data,data)
   }
 
-  resetOldPassword(data : any) : Observable<any> {
-    
-    return this.http.post('https://localhost:7200/api/UserDetail/ResetUserPassword',data)
+  resetOldPassword(data : any,token : any) : Observable<any> {
+    const header : HttpHeaders = new HttpHeaders({Authorization : `Bearer ${token}`})
+    return this.http.post('https://localhost:7200/api/UserDetail/ResetUserPassword',data,{headers : header})
   }
 }

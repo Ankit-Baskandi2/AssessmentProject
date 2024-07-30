@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon'
+import { DashboardComponent } from '../user/adding-user/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [ 
+  declarations: [
   ],
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
+
   ]
 })
 export class SharedModule { }

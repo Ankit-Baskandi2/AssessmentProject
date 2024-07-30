@@ -33,9 +33,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(res.statusCode === 200) {
             this.userDetails = res.data;
             let active = this.userDetails.filter((user : any) => user.isActive);
-            let inActive = this.userDetails.filter((user : any) => !user.isActive);
+            // let inActive = this.userDetails.filter((user : any) => !user.isActive);
             this.activeUser = active.length;
-            this.inActiveUser = inActive.length;
+            // this.inActiveUser = inActive.length;
+            this.inActiveUser = this.userDetails.length - this.activeUser;
           }
         }
       }
@@ -48,11 +49,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const wb : XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    XLSX.writeFile(wb,this.fileName)
+    XLSX.writeFile(wb,this.fileName);
   }
 
   deleteUserInfo(i : number) {
-
     let dialogRef = this.dialog.open(this.deleteDialog);
 
     dialogRef.afterClosed().subscribe(result => {

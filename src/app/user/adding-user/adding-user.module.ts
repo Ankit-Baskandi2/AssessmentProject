@@ -7,12 +7,14 @@ import { AddingDetailsComponent } from './adding-details/adding-details.componen
 import {MatIconModule} from '@angular/material/icon'
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    AddingDetailsComponent
+    AddingDetailsComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +22,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     ReactiveFormsModule,
     MatDialogModule
-  ]
+  ],
+  exports:[]
 })
 export class AddingUserModule { }

@@ -162,15 +162,15 @@
                     <div>
                         <label class="form-label text-weight" for="alternatephone">Alternate Phone</label>
                     </div>
-                    <input type="email" id="alternatephone" class="form-control" placeholder="Alternate Phone"
-                        formControlName="AlternatePhone">
+                    <input type="tel" (keypress)="dateValidation($event)" id="alternatephone" class="form-control"
+                        placeholder="Alternate Phone" formControlName="AlternatePhone">
 
                     <div *ngIf="
                         getControl('AlternatePhone')?.errors &&
                         (getControl('AlternatePhone')?.touched ||
                           getControl('AlternatePhone')?.dirty)
                       ">
-                        <small class="text-danger" *ngIf="getControl('AlternatePhone')?.errors?.['required']">Alternate
+                        <small class="text-danger" *ngIf="getControl('AlternatePhone')?.errors?.['maxlenght']">Alternate
                             phone number should contain 10 digits</small>
                     </div>
                 </div>

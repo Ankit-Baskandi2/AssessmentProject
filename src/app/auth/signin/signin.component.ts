@@ -30,12 +30,13 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger;
     if(this.loginDetail.valid) {
       this.api.siginUser(this.loginDetail.value).subscribe(
         {next : (res : any) => {
           if(res.statusCode === 200) {
             this.toaster.success('success',res.message);
-            localStorage.setItem('Bearer',res.data);
+            localStorage.setItem('token',res.data);
             this.route.navigate(['user/addingmodule/addinguser/dashboard'])
           }
         },

@@ -18,27 +18,6 @@
 .main-eye {
     position: relative;
 }
-  
-// .eye-open {
-//     width: 20px;
-//     height: 10px;
-//     position: absolute;
-//     right: 20px;
-//     top: 69%;
-//     transform: translateY(-50%);
-//     cursor: pointer;
-// }
-
-// .input-eye {
-//     width: 20px;
-//     height: 10px;
-//     position: absolute;
-//     right: 20px;
-//     top: 69%;
-//     transform: translateY(-50%);
-//     cursor: pointer;
-// }
-
 
 .input-eye{
     display:flex;
@@ -64,4 +43,21 @@
 .customizeButton{
     background-color: #4285F4;
     color: #fbfffa;
+}
+
+.div-input{
+    position: relative;
+    width: 2000px;
+    border-radius: 10px;
+    padding: 10px 10px;
+    border: 1px solid rgb(214, 212, 212);
+}
+
+.div-input:focus {
+    outline: none; 
+}
+
+.eye-icon {
+    position: absolute;
+    right: 130px;
 }

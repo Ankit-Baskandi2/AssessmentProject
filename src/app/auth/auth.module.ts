@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ForgetPasswodComponent } from './forget-passwod/forget-passwod.component';
 import { EmailConformationComponent } from './email-conformation/email-conformation.component';
 import { ResetOldPasswordComponent } from './reset-old-password/reset-old-password.component';
+import { MatIconModule } from '@angular/material/icon'
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ResetOldPasswordComponent } from './reset-old-password/reset-old-passwo
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
+    MatIconModule
   ]
 })
 export class AuthModule { }

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Country, State, City } from 'country-state-city'
 import { Subscription } from 'rxjs';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-adding-details',
@@ -73,13 +74,14 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
           DateOfjoining : userDetail.dateOfjoining
         });
 
-        // this.stateListBasedOnCountryCode = State.getAllStates();
         this.uplaodFile = userDetail.imagePath;
-        this.updateUserId = userDetail.userId
+        this.updateUserId = userDetail.userId;
 
         const addressFormArray = this.userRegisterationDetails.get('UserAddressAnkits') as FormArray;
         addressFormArray.clear();
         userDetail.userAddressAnkits.forEach((element : any) => {
+          this.stateListBasedOnCountryCode = State.getStatesOfCountry(element.country);
+          this.cityListBasedOnStateCode = City.getCitiesOfState(element.country, element.state);
           addressFormArray.push(this.fb.group({
             Country: [element.country],
             State: [element.state],

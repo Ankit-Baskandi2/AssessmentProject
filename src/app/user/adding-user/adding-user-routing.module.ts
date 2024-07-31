@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddingDetailsComponent } from './adding-details/adding-details.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { ResetOldPasswordComponent } from 'src/app/auth/reset-old-password/reset-old-password.component';
 
 const routes: Routes = [
   {

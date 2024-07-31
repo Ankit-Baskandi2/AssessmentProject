@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../authServce/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmedValiator } from 'src/app/shared/Confirmed.Validator';
 
 @Component({
   selector: 'app-reset-old-password',
@@ -10,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./reset-old-password.component.scss']
 })
 export class ResetOldPasswordComponent implements OnInit {
+
+  eyeOpen : boolean = false;
 
   constructor(private fb : FormBuilder, private acitvatedRoute : ActivatedRoute, private api : ApiService, private toaster : ToastrService) {}
 
@@ -19,30 +22,23 @@ export class ResetOldPasswordComponent implements OnInit {
     password : ['',[Validators.required]],
     confirmPassword : ['',[Validators.required]]
   },
-  {Validators : this.ConfirmedValiator}
-);
+  { validators : ConfirmedValiator('password', 'confirmPassword') });
 
-  getControl(name : any) : AbstractControl | null {
-    return this.resetPassword.get(name);
+  get f() {
+    return this.resetPassword.controls;
   }
 
-  ConfirmedValiator(controls : AbstractControl) {
-
-      const pass = controls.get('password');
-      const conformPass = controls.get('confirmPassword');
-
-      const error = pass?.value !== conformPass?.value
-
-      conformPass?.setErrors(error ? {error : true} : null)
-      return error ? { mismatch: true } : null;
+  togglePasswordVisibility() {
+    this.eyeOpen = !this.eyeOpen;
   }
 
   onSubmit() {
     if(this.resetPassword.valid) {
       const formValue = {...this.resetPassword.value}
       delete formValue.confirmPassword;
-      // console.log("The data type is : ",typeof passData);
+  
       const token = this.acitvatedRoute.snapshot.params['token'];
+
       this.api.resetOldPassword(formValue,token).subscribe({
         next : (res) => {
           if(res.statusCode === 200) {

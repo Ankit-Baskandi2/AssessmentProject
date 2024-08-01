@@ -5,7 +5,7 @@ import { AddingUserRoutingModule } from './adding-user-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddingDetailsComponent } from './adding-details/adding-details.component';
 import {MatIconModule} from '@angular/material/icon'
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
@@ -21,7 +21,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     AddingUserRoutingModule,
     MatIconModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   exports:[]
 })

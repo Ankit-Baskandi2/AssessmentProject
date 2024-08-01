@@ -30,13 +30,13 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     if(this.loginDetail.valid) {
       this.api.siginUser(this.loginDetail.value).subscribe(
         {next : (res : any) => {
           if(res.statusCode === 200) {
-            this.toaster.success('success',res.message);
+            this.toaster.success('success',`Welcome Back ${res.message}`);
             localStorage.setItem('token',res.data);
+            localStorage.setItem('name',res.message);
             this.route.navigate(['user/addingmodule/addinguser/dashboard'])
           }
         },
@@ -44,7 +44,7 @@ export class SigninComponent implements OnInit {
           if(res.StatusCode === 401) {
             this.toaster.error('error',res.message);
           }
-          this.toaster.error('error','Something went wrong')
+          this.toaster.error('error','Something went wrong');
           this.loginDetail.reset();
         }}
       )

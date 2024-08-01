@@ -29,11 +29,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     debugger;
     this.isUpdate = false;
-    this.userRegisterationDetails.reset( {
-      FirstName : '',
-      MiddleName : '',
-      LastName : ''
-    });
     if (this.userDetailSubscription) {
       this.userDetailSubscription.unsubscribe();
     }
@@ -62,12 +57,14 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
     this.userDetailSubscription = this.api.currentUserDetail.subscribe(userDetail => {
       if (userDetail) {
         this.isUpdate = true;
+        console.log(userDetail);
         this.userRegisterationDetails.patchValue({
           FirstName : userDetail.firstName,
           MiddleName : userDetail.middleName,
           LastName : userDetail.lastName,
           Dob : userDetail.dob,
           Email : userDetail.email,
+          Gender : userDetail.gender,
           Phone : userDetail.phone,
           AlternatePhone : userDetail.alternatePhone,
           DateOfjoining : userDetail.dateOfjoining
@@ -75,12 +72,17 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
         this.uplaodFile = userDetail.imagePath;
         this.updateUserId = userDetail.userId;
+        console.log(userDetail.imagePath);
+        this.userRegisterationDetails.get('imageSrc')?.patchValue(`https://localhost:7200${userDetail.imagePath}`);
 
         const addressFormArray = this.userRegisterationDetails.get('UserAddressAnkits') as FormArray;
         addressFormArray.clear();
+
         userDetail.userAddressAnkits.forEach((element : any) => {
+
           this.stateListBasedOnCountryCode = State.getStatesOfCountry(element.country);
           this.cityListBasedOnStateCode = City.getCitiesOfState(element.country, element.state);
+
           addressFormArray.push(this.fb.group({
             Country: [element.country],
             State: [element.state],
@@ -193,6 +195,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onUpdate() {
+    debugger;
     const formData: FormData = new FormData();
 
     formData.append('Id', this.updateUserId);

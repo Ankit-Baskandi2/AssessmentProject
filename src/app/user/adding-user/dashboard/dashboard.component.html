@@ -24,8 +24,33 @@
 </div>
 
 <div class="container mt-4">
+    <div class="form-group row mb-2">
+        <div class="col-3">
+            <input type="text" class="form-control" [(ngModel)]="filterObj.Name" placeholder="Search by name">
+        </div>
+        <div class="col-3">
+            <input type="text" class="form-control" [(ngModel)]="filterObj.ContactNo" placeholder="Search by phone number">
+        </div>
+        <div class="col-3">
+            <button class="btn btn-primary" (click)="getUserDetails()">Search</button>
+        </div>
+    </div>
     <div>
         <button class="btn btn-primary" (click)="exportToExcel()">Export to excel</button>
+    </div>
+    <div class="col-4 mt-2 page">
+        <div class="dataTable_length">
+            <label>
+                Show
+                <select [(ngModel)]="filterObj.PageSize" (change)="getUserDetails()">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                </select>
+                entries
+            </label>
+        </div>
     </div>
     <table class="table table-bordered table-striped table-active" id="tblData">
         <thead>
@@ -50,14 +75,11 @@
                 <td>{{item.email}}</td>
                 <td>{{item.dob | date}}</td>
                 <td>{{item.phone}}</td>
-                <ng-container *ngIf="item.userAddressAnkits.length > 0; else noAddress">
+                <ng-container *ngIf="item.userAddressAnkits.length > 0;">
                     <td>{{item.userAddressAnkits[0].country}}</td>
                     <td>{{item.userAddressAnkits[0].state}}</td>
                     <td>{{item.userAddressAnkits[0].city}}</td>
                 </ng-container>
-                <ng-template #noAddress>
-                    <td colspan="3">No Address</td>
-                </ng-template>
                 <td>
                     <button class="btn btn-primary" (click)="editUserDetail(item)">
                         <mat-icon>edit</mat-icon>
@@ -69,6 +91,16 @@
             </tr>
         </tbody>
     </table>
+    <div class="col-md-10" style="float:right; text-align: right;" class="pagination">
+        <div class="pagination">
+            <div>
+                <a class="btn btn-primary btn-sm notActive" (click)="decreamentPageNumber()">
+                    Previous</a>
+                <a class="btn btn-primary btn-sm notActive">{{filterObj.PageNumber}}</a>
+                <a class="btn btn-primary btn-sm notActive" (click)="increamentPageNumber()">Next</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <ng-template #deleteDialog let-dialog="dialogRef">

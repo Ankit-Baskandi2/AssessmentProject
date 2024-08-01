@@ -22,6 +22,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subscription : any;
   fileName = "User_Details.xlsx";
 
+  filterObj = {
+    "Name" : "",
+    "ContactNo" : "",
+    "PageNumber" : 1,
+    "PageSize" : 5
+  }
+
   ngOnInit(): void {
     this.getUserDetails();
   }
@@ -31,16 +38,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
       {
         next : (res : any) => {
           if(res.statusCode === 200) {
-            this.userDetails = res.data;
-            let active = this.userDetails.filter((user : any) => user.isActive);
+            //this.userDetails = res.data;
+            let allUserData = res.data
+            let active = allUserData.filter((user : any) => user.isActive);
             // let inActive = this.userDetails.filter((user : any) => !user.isActive);
             this.activeUser = active.length;
             // this.inActiveUser = inActive.length;
-            this.inActiveUser = this.userDetails.length - this.activeUser;
+            this.inActiveUser = allUserData.length - this.activeUser;
           }
         }
       }
     );
+
+    this.api.getDataThroughPagination(this.filterObj).subscribe({
+      next : (res : any) => {
+        if(res.statusCode === 200) {
+          this.userDetails = res.data;
+          console.log(this.userDetails);
+        }
+      }
+    })
   }
 
   exportToExcel() {
@@ -77,6 +94,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   editUserDetail(userDetail : any) {
     this.api.changeUserDetail(userDetail);
     this.router.navigate(['/user/addingmodule/addinguser/addingdetail']);
+  }
+
+  decreamentPageNumber() {
+    if(this.filterObj.PageNumber > 1) {
+      this.filterObj.PageNumber--;
+    }else {
+      this.filterObj.PageNumber = 1;
+    }
+    this.getUserDetails()
+  }
+
+  increamentPageNumber() {
+    this.filterObj.PageNumber++;
+    this.getUserDetails();
   }
 
   ngOnDestroy(): void {

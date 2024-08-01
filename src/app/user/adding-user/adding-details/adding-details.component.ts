@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Country, State, City } from 'country-state-city'
 import { Subscription } from 'rxjs';
-import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-adding-details',
@@ -147,7 +146,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
-
+    debugger;
     if(this.userRegisterationDetails.valid) {
       const formData: FormData = new FormData();
   
@@ -169,7 +168,9 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
         formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
         formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
       });
-    
+
+      this.userRegisterationDetails.reset();
+  
       this.api.saveUserDetails(formData).subscribe({
         next: (res) => {
           if (res.statusCode === 200) {

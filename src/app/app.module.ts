@@ -5,10 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {ToastrModule} from 'ngx-toastr'
 import { LoaderComponent } from './shared/loaderCompAndServ/loader/loader.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import { TokenInterceptor } from './interceptor/token.interceptor';
 
 
 @NgModule({
@@ -26,7 +27,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
     HttpClientModule,
     MatProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [{
+    provide : HTTP_INTERCEPTORS,
+    useClass : TokenInterceptor,
+    multi : true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

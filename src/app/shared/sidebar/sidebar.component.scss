@@ -58,3 +58,38 @@
 .size-text {
   font-size: large;
 }
+
+
+.sidebar-item{
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px;
+  padding-left: 12px;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+}
+
+.sidebar-item .icon{
+  width: 22px;
+  margin-right: 10px;
+}
+
+.sidebar-item .arrow{
+  color: black;
+}
+
+
+
+.active {
+  background-color: #FFF;
+  color: #4285F4;
+  width: 100%;
+}
+
+.inactive {
+  background-color: #4285F4;
+  color: white;
+  width: 100%;
+}
+

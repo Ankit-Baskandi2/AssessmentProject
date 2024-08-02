@@ -100,7 +100,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
       State : ['',[Validators.required]],
       City : ['',[Validators.required]],
       ZipCode : ['',[Validators.required, Validators.maxLength(5), Validators.minLength(5)]]
-    })
+    });
   }
 
   addAddress() {
@@ -130,7 +130,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
         const result = e.target?.result as string;
         this.userRegisterationDetails.get('imageSrc')?.patchValue(result);
       };
-  
       reader.readAsDataURL(file);
     }
   }

@@ -54,7 +54,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next : (res : any) => {
         if(res.statusCode === 200) {
           this.userDetails = res.data;
-          console.log(this.userDetails);
         }
       }
     })
@@ -78,6 +77,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           next : (res) => {
             if(res.statusCode === 200) {
               this.toaster.success('Success', res.message);
+              this.getUserDetails();
             }
           },
     

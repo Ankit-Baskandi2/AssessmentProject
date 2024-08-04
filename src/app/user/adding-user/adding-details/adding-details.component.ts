@@ -26,14 +26,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private fb : FormBuilder, private api : CrudService, private toaster : ToastrService, private router : Router) {}
 
-  ngOnDestroy(): void {
-    debugger;
-    this.isUpdate = false;
-    if (this.userDetailSubscription) {
-      this.userDetailSubscription.unsubscribe();
-    }
-  }
-
   userRegisterationDetails : any;
 
   ngOnInit(): void {
@@ -57,7 +49,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
     this.userDetailSubscription = this.api.currentUserDetail.subscribe(userDetail => {
       if (userDetail) {
         this.isUpdate = true;
-        console.log(userDetail);
         this.userRegisterationDetails.patchValue({
           FirstName : userDetail.firstName,
           MiddleName : userDetail.middleName,
@@ -72,7 +63,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
         this.uplaodFile = userDetail.imagePath;
         this.updateUserId = userDetail.userId;
-        console.log(userDetail.imagePath);
         this.userRegisterationDetails.get('imageSrc')?.patchValue(`https://localhost:7200${userDetail.imagePath}`);
 
         const addressFormArray = this.userRegisterationDetails.get('UserAddressAnkits') as FormArray;
@@ -147,7 +137,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
-    debugger;
     if(this.userRegisterationDetails.valid) {
       const formData: FormData = new FormData();
   
@@ -194,7 +183,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onUpdate() {
-    debugger;
     const formData: FormData = new FormData();
 
     formData.append('Id', this.updateUserId);
@@ -248,6 +236,18 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
   setStateCode(event : any) {
     this.cityListBasedOnStateCode = City.getCitiesOfState(this.countryCode,event.target.value);
+  }
+
+  resetForm() {
+    this.userRegisterationDetails.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.isUpdate = false;
+    if (this.userDetailSubscription) {
+      this.userDetailSubscription.unsubscribe();
+    }
+    this.resetForm();
   }
 
 }

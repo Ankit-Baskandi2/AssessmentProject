@@ -1,5 +1,6 @@
-<div class="container row" style="background-color: azure;">
-    <div class="col-3 d-flex ml-2" style="background-color: bisque; margin-left: 50px; margin-right: 10px; border-radius: 30px;">
+<div class="container row" style="background-color: azure; height: 94px;">
+    <div class="col-3 d-flex ml-2"
+        style="background-color: bisque; margin-left: 50px; margin-right: 10px; border-radius: 30px;">
         <div class="d-flex align-items-center rounded-div">
             <div>
                 <img src="../../../../assets/Icon1.png" alt="icon" height="55px" width="55px">
@@ -29,7 +30,8 @@
             <input type="text" class="form-control" [(ngModel)]="filterObj.Name" placeholder="Search by name">
         </div>
         <div class="col-3">
-            <input type="text" class="form-control" [(ngModel)]="filterObj.ContactNo" placeholder="Search by phone number">
+            <input type="text" class="form-control" [(ngModel)]="filterObj.ContactNo"
+                placeholder="Search by phone number">
         </div>
         <div class="col-3">
             <button class="btn btn-primary" (click)="getUserDetails()">Search</button>

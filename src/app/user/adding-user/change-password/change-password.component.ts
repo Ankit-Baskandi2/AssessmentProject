@@ -29,7 +29,7 @@ export class ChangePasswordComponent implements OnInit {
       this.apiCallService.changeLogedInUserPassword(this.oldAndNewPasswordDetailForm.value).subscribe({
         next : (res => {
           if(res.statusCode === 200) {
-            this.toaster.success('Success',`Welcome back ${res.message}`);
+            this.toaster.success('Success',res.message);
             this.oldAndNewPasswordDetailForm.reset();
           }
         }),

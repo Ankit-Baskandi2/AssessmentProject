@@ -182,51 +182,131 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUpdate() {
-    const formData: FormData = new FormData();
+  // onUpdate() {
+  //   debugger;
+  //   const formData: FormData = new FormData();
 
-    formData.append('Id', this.updateUserId);
-    formData.append('FirstName', this.userRegisterationDetails.value.FirstName);
-    formData.append('MiddleName', this.userRegisterationDetails.value.MiddleName);
-    formData.append('LastName', this.userRegisterationDetails.value.LastName);
-    formData.append('Dob', this.userRegisterationDetails.value.Dob);
-    formData.append('DateOfjoining', this.userRegisterationDetails.value.DateOfjoining);
-    formData.append('Gender', this.userRegisterationDetails.value.Gender);
-    formData.append('Phone', this.userRegisterationDetails.value.Phone);
-    formData.append('Email', this.userRegisterationDetails.value.Email);
-    formData.append('AlternatePhone', this.userRegisterationDetails.value.AlternatePhone);
-    formData.append('ImagePath', this.uplaodFile);
+  //   formData.append('Id', this.updateUserId);
+  //   formData.append('FirstName', this.userRegisterationDetails.value.FirstName);
+  //   formData.append('MiddleName', this.userRegisterationDetails.value.MiddleName);
+  //   formData.append('LastName', this.userRegisterationDetails.value.LastName);
+  //   formData.append('Dob', this.userRegisterationDetails.value.Dob);
+  //   formData.append('DateOfjoining', this.userRegisterationDetails.value.DateOfjoining);
+  //   formData.append('Gender', this.userRegisterationDetails.value.Gender);
+  //   formData.append('Phone', this.userRegisterationDetails.value.Phone);
+  //   formData.append('Email', this.userRegisterationDetails.value.Email);
+  //   formData.append('AlternatePhone', this.userRegisterationDetails.value.AlternatePhone);
+  //   //formData.append('ImagePath', this.uplaodFile);
+  //   const imagePath = this.userRegisterationDetails.value.imageSrc;
+
+  //   if(imagePath) {
+  //   this.convertImageToFile(imagePath).then((file : any) => {
+  //     formData.append('ImagePath', file);
+  //   })
+  //   }
   
-    const userAddressAnkits = this.userRegisterationDetails.get('UserAddressAnkits').value;
-    userAddressAnkits.forEach((address: any, i: number) => {
-      formData.append(`UserAddressAnkits[${i}].City`, address.City);
-      formData.append(`UserAddressAnkits[${i}].State`, address.State);
-      formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
-      formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
+  //   const userAddressAnkits = this.userRegisterationDetails.get('UserAddressAnkits').value;
+  //   userAddressAnkits.forEach((address: any, i: number) => {
+  //     formData.append(`UserAddressAnkits[${i}].City`, address.City);
+  //     formData.append(`UserAddressAnkits[${i}].State`, address.State);
+  //     formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
+  //     formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
+  //   });
+
+  //   this.api.updateUserDetail(formData).subscribe({
+  //     next : (res) => {
+  //       if(res.statusCode === 200) {
+  //         this.toaster.success('Success',res.message);
+  //         this.userRegisterationDetails.reset();
+  //         this.router.navigate(['/user/addingmodule/addinguser/dashboard']);
+  //       }
+  //     },
+  //     error : (res) => {
+  //       if(res.statusCode === 401) {
+  //         this.toaster.error('Error', res.message);
+  //       }
+  //       this.toaster.error('Error', 'Something went wrong while updating');
+  //     },
+  //     complete : () => {
+  //       this.userRegisterationDetails.reset();
+  //     }
+  //   })
+
+  //   formData.forEach((value, key) => {
+  //     console.log(key, value);
+  //   });
+  // }
+
+  onUpdate() {
+  const formData: FormData = new FormData();
+
+  formData.append('Id', this.updateUserId);
+  formData.append('FirstName', this.userRegisterationDetails.value.FirstName);
+  formData.append('MiddleName', this.userRegisterationDetails.value.MiddleName);
+  formData.append('LastName', this.userRegisterationDetails.value.LastName);
+  formData.append('Dob', this.userRegisterationDetails.value.Dob);
+  formData.append('DateOfjoining', this.userRegisterationDetails.value.DateOfjoining);
+  formData.append('Gender', this.userRegisterationDetails.value.Gender);
+  formData.append('Phone', this.userRegisterationDetails.value.Phone);
+  formData.append('Email', this.userRegisterationDetails.value.Email);
+  formData.append('AlternatePhone', this.userRegisterationDetails.value.AlternatePhone);
+
+  const userAddressAnkits = this.userRegisterationDetails.get('UserAddressAnkits').value;
+  userAddressAnkits.forEach((address: any, i: number) => {
+    formData.append(`UserAddressAnkits[${i}].City`, address.City);
+    formData.append(`UserAddressAnkits[${i}].State`, address.State);
+    formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
+    formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
+  });
+
+  const imagePath = this.userRegisterationDetails.value.imageSrc;
+
+  if (imagePath) {
+    this.convertImageToFile(imagePath).then((file) => {
+      formData.append('ImagePath', file);
+      this.submitUpdateForm(formData);
+    }).catch((error) => {
+      console.error('Error converting image:', error);
+      this.toaster.error('Error', 'Something went wrong while processing the image');
     });
+  } else {
+    this.submitUpdateForm(formData);
+  }
+}
 
-    this.api.updateUserDetail(formData).subscribe({
-      next : (res) => {
-        if(res.statusCode === 200) {
-          this.toaster.success('Success',res.message);
-          this.userRegisterationDetails.reset();
-          this.router.navigate(['/user/addingmodule/addinguser/dashboard']);
-        }
-      },
-      error : (res) => {
-        if(res.statusCode === 401) {
-          this.toaster.error('Error', res.message);
-        }
-        this.toaster.error('Error', 'Something went wrong while updating');
-      },
-      complete : () => {
+submitUpdateForm(formData: FormData) {
+  this.api.updateUserDetail(formData).subscribe({
+    next: (res) => {
+      if (res.statusCode === 200) {
+        this.toaster.success('Success', res.message);
         this.userRegisterationDetails.reset();
+        this.router.navigate(['/user/addingmodule/addinguser/dashboard']);
       }
-    })
+    },
+    error: (res) => {
+      if (res.statusCode === 401) {
+        this.toaster.error('Error', res.message);
+      }
+      this.toaster.error('Error', 'Something went wrong while updating');
+    },
+    complete: () => {
+      this.userRegisterationDetails.reset();
+    }
+  });
 
-    // formData.forEach((value, key) => {
-    //   console.log(key, value);
-    // });
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
+}
+
+
+  convertImageToFile(dataUrl : string) :Promise<File> {
+    return fetch(dataUrl)
+    .then(res => res.blob())
+    .then(blob => {
+      const fileName = `image_${new Date().getTime()}.png`;
+      return new File([blob], fileName, { type: blob.type });
+    });
   }
 
   setCountryCode(event : any) {

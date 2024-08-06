@@ -18,6 +18,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
   isUpdate: boolean = false;
   uplaodFile: any = null;
   updateUserId: any;
+  updateAddressId : any;
   countryList: any;
   countryCode: any;
   stateListBasedOnCountryCode: any;
@@ -48,6 +49,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
     this.userDetailSubscription = this.crudService.currentUserDetail.subscribe(userDetail => {
       if (userDetail) {
+        console.log(userDetail);
         this.isUpdate = true;
         this.userRegisterationDetails.patchValue({
           FirstName: userDetail.firstName,
@@ -63,6 +65,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
         this.uplaodFile = userDetail.imagePath;
         this.updateUserId = userDetail.userId;
+        this.updateAddressId = userDetail.userAddressAnkits;
         this.userRegisterationDetails.get('imageSrc')?.patchValue(`https://localhost:7200${userDetail.imagePath}`);
 
         const addressFormArray = this.userRegisterationDetails.get('UserAddressAnkits') as FormArray;
@@ -162,8 +165,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
         formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
       });
 
-      this.userRegisterationDetails.reset();
-
+      
       this.crudService.saveUserDetails(formData).subscribe({
         next: (res) => {
           if (res.statusCode === 200) {
@@ -179,6 +181,8 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
           this.toaster.error('Error', "Something went wrong");
         }
       });
+
+      this.userRegisterationDetails.reset();
     }
     else {
       this.userRegisterationDetails.markAllAsTouched();
@@ -201,6 +205,7 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
 
     const userAddressAnkits = this.userRegisterationDetails.get('UserAddressAnkits').value;
     userAddressAnkits.forEach((address: any, i: number) => {
+      formData.append(`UserAddressAnkits[${i}].AddressId`, this.updateAddressId[i].addressId);
       formData.append(`UserAddressAnkits[${i}].City`, address.City);
       formData.append(`UserAddressAnkits[${i}].State`, address.State);
       formData.append(`UserAddressAnkits[${i}].Country`, address.Country);

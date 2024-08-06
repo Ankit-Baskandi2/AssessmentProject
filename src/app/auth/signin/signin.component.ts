@@ -39,11 +39,11 @@ export class SigninComponent implements OnInit {
             localStorage.setItem('name',res.message);
             this.route.navigate(['user/addingmodule/addinguser/dashboard'])
           }
-        },
-        error: (res : any) => {
-          if(res.StatusCode === 401) {
-            this.toaster.error('error',res.message);
+          else {
+            this.toaster.error('Error', res.message);
           }
+        },
+        error: (err) => {
           this.toaster.error('error','Something went wrong');
           this.loginDetail.reset();
         }}

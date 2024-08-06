@@ -38,12 +38,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       {
         next : (res : any) => {
           if(res.statusCode === 200) {
-            //this.userDetails = res.data;
             let allUserData = res.data
             let active = allUserData.filter((user : any) => user.isActive);
-            // let inActive = this.userDetails.filter((user : any) => !user.isActive);
             this.activeUser = active.length;
-            // this.inActiveUser = inActive.length;
             this.inActiveUser = allUserData.length - this.activeUser;
           }
         }

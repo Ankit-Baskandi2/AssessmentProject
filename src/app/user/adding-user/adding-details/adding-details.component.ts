@@ -33,6 +33,11 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
     this.countryList = Country.getAllCountries();
     this.dateNow = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
+    this.initilizingReactiveForm();
+    this.subscribingToEditFormDetail();
+  }
+
+  initilizingReactiveForm() {
     this.userRegisterationDetails = this.fb.group({
       FirstName: ['', [Validators.required, Validators.maxLength(30)]],
       MiddleName: [''],
@@ -40,13 +45,15 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
       Dob: ['', [Validators.required]],
       DateOfjoining: [''],
       Gender: ['', [Validators.required]],
-      Phone: ['', [Validators.required, Validators.maxLength(10)]],
-      AlternatePhone: ['', [Validators.maxLength(10)]],
+      Phone: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
+      AlternatePhone: ['', [Validators.maxLength(10), Validators.minLength(10)]],
       Email: ['', [Validators.required, Validators.email]],
       imageSrc: [''],
       UserAddressAnkits: this.fb.array([this.addAddressDetailsFromGroup()])
     });
+  }
 
+  subscribingToEditFormDetail() {
     this.userDetailSubscription = this.crudService.currentUserDetail.subscribe(userDetail => {
       if (userDetail) {
         console.log(userDetail);
@@ -164,7 +171,6 @@ export class AddingDetailsComponent implements OnInit, OnDestroy {
         formData.append(`UserAddressAnkits[${i}].Country`, address.Country);
         formData.append(`UserAddressAnkits[${i}].ZipCode`, address.ZipCode);
       });
-
       
       this.crudService.saveUserDetails(formData).subscribe({
         next: (res) => {

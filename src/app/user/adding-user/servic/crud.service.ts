@@ -12,39 +12,41 @@ export class CrudService {
 
   constructor(private http : HttpClient, private LoaderService : LoaderService) { }
 
+  localHostString = 'https://localhost:7200/api/UserDetail';
+
   changeUserDetail(userDetail: any) {
     this.userDetailSubject.next(userDetail);
   }
 
   getAllUser() : Observable<any> {
     this.LoaderService.show();
-    return this.http.get('https://localhost:7200/api/UserDetail/GetUserDetails').pipe(finalize(() => {this.LoaderService.hide();}))
+    return this.http.get(`${this.localHostString}/GetUserDetails`).pipe(finalize(() => {this.LoaderService.hide();}))
   }
 
   saveUserDetails(data : any) : Observable<any> {
     this.LoaderService.show();
-    return this.http.post('https://localhost:7200/api/UserDetail/SaveUserDetail',data).pipe
+    return this.http.post(`${this.localHostString}/SaveUserDetail`,data).pipe
     (finalize(() => {this.LoaderService.hide();}));
   }
 
   deActivateUserAccount(i : number) : Observable<any> {
     this.LoaderService.show();
-    return this.http.delete(`https://localhost:7200/api/UserDetail/DeleteUserDetails?Id=${i}`).pipe(finalize(() => { this.LoaderService.hide();}));
+    return this.http.delete(`${this.localHostString}/DeleteUserDetails?Id=${i}`).pipe(finalize(() => { this.LoaderService.hide();}));
   }
 
   updateUserDetail(data : any) : Observable<any> {
     this.LoaderService.show();
-    return this.http.put('https://localhost:7200/api/UserDetail/UpdateUserDetail',data).pipe(finalize(() => {this.LoaderService.hide();}));
+    return this.http.put(`${this.localHostString}/UpdateUserDetail`,data).pipe(finalize(() => {this.LoaderService.hide();}));
   }
 
   changeLogedInUserPassword(data : any) : Observable<any> {
     //const header : HttpHeaders = new HttpHeaders({Authorization : `Bearer ${localStorage.getItem('token')}`})
     this.LoaderService.show();
-    return this.http.post('https://localhost:7200/api/UserDetail/ChangePassword',data).pipe(finalize(() => {this.LoaderService.hide();}))
+    return this.http.post(`${this.localHostString}/ChangePassword`,data).pipe(finalize(() => {this.LoaderService.hide();}))
   }
 
   getDataThroughPagination(paginationParam : any) {
     this.LoaderService.show();
-    return this.http.post('https://localhost:7200/api/UserDetail/GetDataAccordinToPaginarion',paginationParam).pipe(finalize(() => {this.LoaderService.hide();}));
+    return this.http.post(`${this.localHostString}/GetDataAccordinToPaginarion`,paginationParam).pipe(finalize(() => {this.LoaderService.hide();}));
   }
 }
